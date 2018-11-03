@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'timecop'
   spec.add_development_dependency 'test-unit', '>= 3.1.0'
+  spec.add_development_dependency 'appraisal', '>= 2.2'
 end

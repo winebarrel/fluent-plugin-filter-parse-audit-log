@@ -37,9 +37,9 @@ module SpecHelper
     EOS
 
     if Gem::Version.new(Fluent::VERSION) >= Gem::Version.new('0.14')
-      Fluent::Test::Driver::Input.new(FluentParseAuditLogFilter).configure(fluentd_conf)
+      Fluent::Test::Driver::Filter.new(FluentParseAuditLogFilter).configure(fluentd_conf)
     else
-      Fluent::Test::OutputTestDriver.new(FluentParseAuditLogFilter).configure(fluentd_conf)
+      Fluent::Test::FilterTestDriver.new(FluentParseAuditLogFilter).configure(fluentd_conf)
     end
   end
 end
