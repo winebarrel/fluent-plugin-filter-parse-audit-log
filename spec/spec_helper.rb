@@ -30,17 +30,37 @@ RSpec.configure do |config|
   end
 end
 
-module SpecHelper
-  def create_driver
-    fluentd_conf = <<~EOS
-      type parse_audit_log
-    EOS
+module FluentSpecHelper
+  def create_driver(options = {})
+    options = {
+      type: 'parse_audit_log',
+    }.merge(options)
+
+    fluentd_conf = options.map {|k, v| "#{k} #{v}" }.join("\n")
 
     if Gem::Version.new(Fluent::VERSION) >= Gem::Version.new('0.14')
       Fluent::Test::Driver::Filter.new(FluentParseAuditLogFilter).configure(fluentd_conf)
     else
-      Fluent::Test::FilterTestDriver.new(FluentParseAuditLogFilter).configure(fluentd_conf)
+      Fluent::Test::FilterTestDriver.new(FluentParseAuditLogFilter, 'filter.test').configure(fluentd_conf)
+    end
+  end
+
+  def driver_feed(driver, time, record, tag = 'filter.test')
+    if Gem::Version.new(Fluent::VERSION) >= Gem::Version.new('0.14')
+      driver.feed(tag, time, record)
+    else
+      driver.emit_with_tag(tag, record, time)
+    end
+  end
+
+  def driver_filtered(driver)
+    if Gem::Version.new(Fluent::VERSION) >= Gem::Version.new('0.14')
+      driver.filtered
+    else
+      driver.filtered_as_array.map do |_, t, r|
+        [t, r]
+      end
     end
   end
 end
-include SpecHelper
+include FluentSpecHelper
