@@ -109,6 +109,25 @@ RSpec.describe FluentParseAuditLogFilter do
       expected = audit_log.values.map {|record| [time, record] }
       expect(actual).to match_array expected
     end
+
+    context 'when key is specified' do
+      let(:key) { 'zapzapzap' }
+      let(:fluentd_conf) { {'key' => key} }
+
+      it 'can be parsed' do
+        expect(driver.instance.log).to_not receive(:warn)
+
+        driver.run do
+          audit_log.keys.each do |line|
+            driver_feed(driver, time, {key => line})
+          end
+        end
+
+        actual = driver_filtered(driver)
+        expected = audit_log.values.map {|record| [time, record] }
+        expect(actual).to match_array expected
+      end
+    end
   end
 
   context 'when audit.log is invalid' do
