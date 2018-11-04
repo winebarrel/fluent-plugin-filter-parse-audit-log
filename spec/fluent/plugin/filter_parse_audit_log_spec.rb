@@ -94,7 +94,6 @@ RSpec.describe FluentParseAuditLogFilter do
   let(:fluentd_conf) { {} }
   let(:driver) { create_driver(fluentd_conf) }
 
-
   context 'when audit.log are normal' do
     it 'can be parsed' do
       expect(driver.instance.log).to_not receive(:warn)
