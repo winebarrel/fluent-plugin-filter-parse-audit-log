@@ -127,6 +127,24 @@ RSpec.describe FluentParseAuditLogFilter do
         expect(actual).to match_array expected
       end
     end
+
+    context 'when flatten' do
+      let(:fluentd_conf) { {'flatten' => true} }
+
+      it 'can be parsed flatly' do
+        expect(driver.instance.log).to_not receive(:warn)
+
+        driver.run do
+          audit_log.keys.each do |line|
+            driver_feed(driver, time, {'message' => line})
+          end
+        end
+
+        actual = driver_filtered(driver)
+        expected = audit_log.values.map {|record| [time, flatten(record)] }
+        expect(actual).to match_array expected
+      end
+    end
   end
 
   context 'when audit.log is invalid' do

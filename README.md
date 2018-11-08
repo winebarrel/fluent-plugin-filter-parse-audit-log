@@ -26,6 +26,7 @@ Or install it yourself as:
 ```
 @type parse_audit_log
 #key message
+#flatten false
 ```
 
 ## Output
