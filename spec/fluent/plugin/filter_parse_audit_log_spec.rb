@@ -80,6 +80,10 @@ RSpec.describe FluentParseAuditLogFilter do
            "op"=>"PAM:authentication",
            "res"=>"failed",
            "terminal"=>"pts/0"}}},
+      # ---
+      %q{type=EOE msg=audit(1364475353.159:24270):} =>
+      {"header"=>{"type"=>"EOE", "msg"=>"audit(1364475353.159:24270)"},
+      "body"=>{}},
     }
   end
 
