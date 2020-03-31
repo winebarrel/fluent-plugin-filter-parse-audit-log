@@ -6,11 +6,12 @@ class FluentParseAuditLogFilter < Fluent::Filter
 
   config_param :key, :string, default: 'message'
   config_param :flatten, :bool, default: false
+  config_param :unhex, :bool, default: false
 
   def filter(tag, time, record)
     line = record[@key]
     return record unless line
-    AuditLogParser.parse_line(line, flatten: @flatten)
+    AuditLogParser.parse_line(line, flatten: @flatten, unhex: @unhex)
   rescue => e
     log.warn "failed to parse a audit log: #{line}", error_class: e.class, error: e.message
     log.warn_backtrace
