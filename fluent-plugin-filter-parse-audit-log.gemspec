@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'fluentd'
   spec.add_dependency 'audit_log_parser', '>= 0.1.3'
   spec.add_development_dependency 'bundler'
-  spec.add_development_dependency 'rake'
+  spec.add_development_dependency "rake", ">= 12.3.3"
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'timecop'
   spec.add_development_dependency 'test-unit', '>= 3.1.0'
